@@ -15,6 +15,29 @@ def speak(text):
     engine.say(text)
     engine.runAndWait()
 
+def aiProcess(command):
+    client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
+
+def aiProcess(command):
+    completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a virtual assistant named Jarvis skilled in general tasks like Alexa and Google Cloud."
+            },
+            {
+                "role": "user",
+                "content": command
+            }
+        ]
+    )
+
+    return completion.choices[0].message.content
+
+
 def processCommand(c):
     c= c.lower()
     if "open google" in c:
@@ -47,9 +70,8 @@ def processCommand(c):
 
             for article in articles:
                 speak(article['title'])          
+
     
-
-
 if __name__ == "__main__":
     speak("Activating Jarvis")
 

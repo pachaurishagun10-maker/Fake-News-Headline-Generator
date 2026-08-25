@@ -14,7 +14,7 @@ def aiProcess(command):
         messages=[
             {
                 "role": "system",
-                "content": "You are a virtual assistant named Jarvis."
+                "content": "You are a virtual assistant named Jarvis skilled in general tasks like Alexa and Google Cloud."
             },
             {
                 "role": "user",
