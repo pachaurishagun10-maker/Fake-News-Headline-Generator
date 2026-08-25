@@ -3,6 +3,9 @@ import webbrowser
 import pyttsx3
 import MusicLibrary
 import requests
+import os
+from dotenv import load_dotenv
+from groq import Groq 
 
 recognizer=sr.Recognizer()
 engine=pyttsx3.init()
@@ -44,8 +47,8 @@ def processCommand(c):
 
             for article in articles:
                 speak(article['title'])          
-    else:
-        
+    
+
 
 if __name__ == "__main__":
     speak("Activating Jarvis")
