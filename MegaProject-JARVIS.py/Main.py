@@ -16,7 +16,8 @@ engine = pyttsx3.init()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
-
+WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
+WEATHER_CITY = os.getenv("WEATHER_CITY", "Jaipur")
 
 def speak(text):
     engine = pyttsx3.init()
@@ -80,7 +81,6 @@ def getNews():
 
             speak("Here are the latest news headlines.")
 
-            # Read first 5 headlines
             for article in articles[:5]:
 
                 title = article.get("title")
@@ -96,6 +96,59 @@ def getNews():
             speak(
                 "Sorry, I couldn't get the latest news."
             )
+
+
+def getWeather():
+
+    if not WEATHER_API_KEY:
+        speak("Weather API key is missing.")
+        print("ERROR: WEATHER_API_KEY not found in .env")
+        return
+
+    try:
+
+        url = (
+            "https://api.openweathermap.org/data/2.5/weather"
+            f"?q={WEATHER_CITY}&appid={WEATHER_API_KEY}&units=metric"
+        )
+
+        response = requests.get(url, timeout=10)
+
+        print("Weather API Status:", response.status_code)
+
+        if response.status_code == 200:
+
+            data = response.json()
+
+            temp = data["main"]["temp"]
+            feels_like = data["main"]["feels_like"]
+            description = data["weather"][0]["description"]
+            city = data["name"]
+
+            message = (
+                f"The weather in {city} is {description} "
+                f"with a temperature of {temp} degrees Celsius, "
+                f"feels like {feels_like} degrees."
+            )
+
+            print("Weather:", message)
+            speak(message)
+
+        else:
+
+            print("Weather API Response:", response.text)
+            speak("Sorry, I couldn't get the weather right now.")
+
+    except requests.exceptions.RequestException as e:
+
+        print("Weather request error:", e)
+        speak("Sorry, I couldn't connect to the weather service.")
+
+    except Exception as e:
+
+        print("Weather error:", e)
+        speak("Something went wrong while getting the weather.")
+
 
     except requests.exceptions.RequestException as e:
 
@@ -118,35 +171,30 @@ def processCommand(c):
     c = c.lower().strip()
 
 
-    # Google
     if "open google" in c:
 
         speak("Opening Google...")
         webbrowser.open("https://www.google.com")
 
 
-    # YouTube
     elif "open youtube" in c:
 
         speak("Opening YouTube...")
         webbrowser.open("https://www.youtube.com")
 
 
-    # GitHub
     elif "open github" in c:
 
         speak("Opening GitHub...")
         webbrowser.open("https://github.com")
 
 
-    # ChatGPT
     elif "open chatgpt" in c:
 
         speak("Opening ChatGPT...")
         webbrowser.open("https://chatgpt.com")
 
 
-    # Play music
     elif c.startswith("play"):
 
         parts = c.split()
@@ -172,13 +220,14 @@ def processCommand(c):
                 speak("Sorry, I don't have that song in my music library.")
 
 
-    # News
     elif "news" in c:
 
         getNews()
 
+    elif "weather" in c:
 
-    # AI
+        getWeather()    
+
     else:
 
         output = aiProcess(c)
@@ -226,10 +275,7 @@ if __name__ == "__main__":
                     .replace("jarvis", "")
                     .strip()
                 )
-
-
-                # Example:
-                # "Jarvis open Google"
+                
                 if remaining:
 
                     print(f"Command: {remaining}")
@@ -237,8 +283,6 @@ if __name__ == "__main__":
                     processCommand(remaining)
 
 
-                # Example:
-                # "Jarvis"
                 else:
 
                     speak("Yes")
