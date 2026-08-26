@@ -6,6 +6,7 @@ import requests
 import os
 from dotenv import load_dotenv
 from groq import Groq 
+load_dotenv()
 
 recognizer=sr.Recognizer()
 engine=pyttsx3.init()
@@ -18,7 +19,7 @@ def speak(text):
 def aiProcess(command):
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
     completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="llama3-8b-8192",
         messages=[
             {
                 "role": "system",
