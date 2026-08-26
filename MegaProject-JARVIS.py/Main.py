@@ -3,38 +3,13 @@ import webbrowser
 import pyttsx3
 import MusicLibrary
 import requests
-import os
-from dotenv import load_dotenv
-from groq import Groq 
-
-load_dotenv()
 
 recognizer=sr.Recognizer()
 engine=pyttsx3.init()
-NEWS_API_KEY="39d0c5dcc136403b8c20772e1287b4fe"
 
 def speak(text):
     engine.say(text)
     engine.runAndWait()
-
-def aiProcess(command):
-    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-    completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a virtual assistant named Jarvis skilled in general tasks like Alexa and Google Cloud."
-            },
-            {
-                "role": "user",
-                "content": command
-            }
-        ]
-    )
-
-    return completion.choices[0].message.content
-
 
 def processCommand(c):
     c= c.lower()
@@ -59,20 +34,7 @@ def processCommand(c):
         link=MusicLibrary.Music[song]
         webbrowser.open(link)
 
-    elif "news" in c.lower():
-        r=requests.get(f"https://newsapi.org/v2/top-headlines?country=in&apiKey={NEWS_API_KEY}")
-        if r.status_code == 200:
-            data=r.json()                         #Parse the JSON response
-
-            articles=data.get('articles',[])      #Extract the articles
-
-            for article in articles:
-                speak(article['title'])          
-
-    else:
-        output=aiProcess(c)
-        speak(output)
-    
+ 
 if __name__ == "__main__":
     speak("Activating Jarvis")
 
