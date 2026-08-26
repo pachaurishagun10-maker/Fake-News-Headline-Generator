@@ -97,6 +97,22 @@ def getNews():
                 "Sorry, I couldn't get the latest news."
             )
 
+    except requests.exceptions.RequestException as e:
+
+        print("News request error:", e)
+
+        speak(
+            "Sorry, I couldn't connect to the news service."
+        )
+
+    except Exception as e:
+
+        print("News error:", e)
+
+        speak(
+            "Something went wrong while getting the news."
+        )
+
 
 def getWeather():
 
@@ -150,22 +166,6 @@ def getWeather():
         speak("Something went wrong while getting the weather.")
 
 
-    except requests.exceptions.RequestException as e:
-
-        print("News request error:", e)
-
-        speak(
-            "Sorry, I couldn't connect to the news service."
-        )
-
-    except Exception as e:
-
-        print("News error:", e)
-
-        speak(
-            "Something went wrong while getting the news."
-        )
-
 def processCommand(c):
 
     c = c.lower().strip()
@@ -192,151 +192,150 @@ def processCommand(c):
     elif "open chatgpt" in c:
 
         speak("Opening ChatGPT...")
-        webbrowser.open("https://chatgpt.com")
+        webbrowser.open("https://chatgpt.com") 
 
 
-    elif c.startswith("play"):
+    elif c.startswith("play"): 
 
-        parts = c.split()
+        parts = c.split() 
 
-        if len(parts) < 2:
+        if len(parts) < 2: 
 
-            speak("Please tell me which song you want to play.")
+            speak("Please tell me which song you want to play.") 
 
-        else:
+        else: 
 
-            song = parts[1]
+            song = parts[1] 
 
-            if song in MusicLibrary.Music:
+            if song in MusicLibrary.Music: 
 
-                link = MusicLibrary.Music[song]
+                link = MusicLibrary.Music[song] 
 
-                speak(f"Playing {song}...")
+                speak(f"Playing {song}...") 
 
-                webbrowser.open(link)
+                webbrowser.open(link) 
 
-            else:
+            else: 
 
-                speak("Sorry, I don't have that song in my music library.")
+                speak("Sorry, I don't have that song in my music library.") 
 
 
-    elif "news" in c:
+    elif "news" in c: 
 
-        getNews()
+        getNews() 
 
-    elif "weather" in c:
+    elif "weather" in c: 
 
-        getWeather()    
+        getWeather()     
 
-    else:
+    else: 
 
-        output = aiProcess(c)
+        output = aiProcess(c) 
 
-        print("Jarvis:", output)
+        print("Jarvis:", output) 
 
-        speak(output)
+        speak(output) 
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
 
-    speak("Activating Jarvis")
+    speak("Activating Jarvis") 
 
-    while True:
+    while True: 
 
-        try:
+        try: 
 
-            with sr.Microphone() as source:
+            with sr.Microphone() as source: 
 
-                print("Recognizing...")
+                print("Recognizing...") 
 
-                recognizer.adjust_for_ambient_noise(
-                    source,
-                    duration=0.8
-                )
+                recognizer.adjust_for_ambient_noise( 
+                    source, 
+                    duration=0.8 
+                ) 
 
-                audio = recognizer.listen(
-                    source,
-                    timeout=7,
-                    phrase_time_limit=5
-                )
+                audio = recognizer.listen( 
+                    source, 
+                    timeout=7, 
+                    phrase_time_limit=5 
+                ) 
 
 
-            print("Processing...")
+            print("Processing...") 
 
-            word = recognizer.recognize_google(audio)
+            word = recognizer.recognize_google(audio) 
 
-            print(f"Heard: {word}")
+            print(f"Heard: {word}") 
 
 
-            # Check for Jarvis wake word
-            if "jarvis" in word.lower():
+            if "jarvis" in word.lower(): 
 
-                remaining = (
-                    word.lower()
-                    .replace("jarvis", "")
-                    .strip()
-                )
-                
-                if remaining:
+                remaining = ( 
+                    word.lower() 
+                    .replace("jarvis", "") 
+                    .strip() 
+                ) 
+                 
+                if remaining: 
 
-                    print(f"Command: {remaining}")
+                    print(f"Command: {remaining}") 
 
-                    processCommand(remaining)
+                    processCommand(remaining) 
 
 
-                else:
+                else: 
 
-                    speak("Yes")
+                    speak("Yes") 
 
-                    try:
+                    try: 
 
-                        with sr.Microphone() as source:
+                        with sr.Microphone() as source: 
 
-                            print("Listening...")
+                            print("Listening...") 
 
-                            recognizer.adjust_for_ambient_noise(
-                                source,
-                                duration=0.5
-                            )
+                            recognizer.adjust_for_ambient_noise( 
+                                source, 
+                                duration=0.5 
+                            ) 
 
-                            audio = recognizer.listen(
-                                source,
-                                timeout=7,
-                                phrase_time_limit=5
-                            )
+                            audio = recognizer.listen( 
+                                source, 
+                                timeout=7, 
+                                phrase_time_limit=5 
+                            ) 
 
 
-                        command = recognizer.recognize_google(audio)
+                        command = recognizer.recognize_google(audio) 
 
-                        print(f"Command: {command}")
+                        print(f"Command: {command}") 
 
-                        processCommand(command)
+                        processCommand(command) 
 
 
-                    except sr.WaitTimeoutError:
+                    except sr.WaitTimeoutError: 
 
-                        print("Timeout - Can't hear")
+                        print("Timeout - Can't hear") 
 
 
-                    except sr.UnknownValueError:
+                    except sr.UnknownValueError: 
 
-                        print("Didn't understand what you said")
+                        print("Didn't understand what you said") 
 
 
-                    except Exception as e:
+                    except Exception as e: 
 
-                        print(f"Command error: {e}")
+                        print(f"Command error: {e}") 
 
 
-        except sr.WaitTimeoutError:
+        except sr.WaitTimeoutError: 
 
-            print("Timeout - Can't hear")
+            print("Timeout - Can't hear") 
 
 
-        except sr.UnknownValueError:
+        except sr.UnknownValueError: 
 
-            print("Didn't understand what you said")
+            print("Didn't understand what you said") 
 
 
-        except Exception as e:
+        except Exception as e: 
 
             print(f"Error: {e}")
