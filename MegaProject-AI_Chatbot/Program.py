@@ -9,8 +9,8 @@ pyautogui.click(678, 591)
 time.sleep(1)
 
 # 2. Drag from (842, 749) to (1304, 673) to select the text
-pyautogui.moveTo(842, 749, duration=0.2)
-pyautogui.dragTo(1304, 673, duration=0.8, button="left")
+pyautogui.moveTo(846, 584, duration=0.2)
+pyautogui.dragTo(1045, 618, duration=0.8, button="left")
 
 # 3. Copy the selected text
 pyautogui.hotkey("ctrl", "c")
