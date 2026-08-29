@@ -4,4 +4,4 @@ while True:
     a=pyautogui.position()
     print(a)
     678,591
-    845 582 to 1045 618
+    329,97 to 1189,669
