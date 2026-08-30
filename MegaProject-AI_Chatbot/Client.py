@@ -15,15 +15,18 @@ command='''
 [19:30 , 10/5/2025] rio:Acha great yaar, i'm trying to build reading habit
 [19:30 , 10/5/2025] juhu:Great!! That's really good let me know kaisi lagi, I'd love to listen
 [19:30 , 10/5/2025] rio:sure!!Thank you so much
-[19:30 , 10/5/2025] juhu:No worries!!Most Welcome.
+[19:30 , 10/5/2025] juhu:No worries!!Most Welcome. 
 '''
+def aiProcess(command_text):
     completion = client.chat.completions.create(
         model="openai/gpt-oss-20b",
         messages=[
             {"role": "system","content": "You are a person named Juhu who speaks hindi and english.He is from India and is a engineer.You analyze chat history and respond like Juhu"},
             
-            {"role": "user","content":Command}
+            {"role": "user","content":command}
         ]
     )
 
     return completion.choices[0].message.content
+response=aiProcess(command) 
+print(response)
