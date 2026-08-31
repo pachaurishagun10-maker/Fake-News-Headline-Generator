@@ -16,6 +16,7 @@ command='''
 [19:30 , 10/5/2025] juhu:Great!! That's really good let me know kaisi lagi, I'd love to listen
 [19:30 , 10/5/2025] rio:sure!!Thank you so much
 [19:30 , 10/5/2025] juhu:No worries!!Most Welcome. 
+[19:38 , 10/5/2025] rio:Can you also suggest me some fictional books
 '''
 def aiProcess(command_text):
     completion = client.chat.completions.create(
