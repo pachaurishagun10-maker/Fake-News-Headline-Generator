@@ -1,65 +1,83 @@
 class Expense:
-    def __init__(self,date,description,amount):
-        self.date=date
-        self.description=description
-        self.amount=amount
+    def __init__(self, date, description, amount):
+        self.date = date
+        self.description = description
+        self.amount = amount
+
 
 class ExpenseTracker:
     def __init__(self):
-        self.expenses=[]
+        self.expenses = []
 
-    def add_expense(self,expense):
+    def add_expense(self, expense):
         self.expenses.append(expense)
 
-    def remove_expense(self,index):
-        if 0<= index<len(self.expenses):
+    def remove_expense(self, index):
+        if 0 <= index < len(self.expenses):
             del self.expenses[index]
             print("Expense removed successfully.")
         else:
             print("Invalid expense index.")
 
     def view_expenses(self):
-        if len(self.expenses)==0:
+        if len(self.expenses) == 0:
             print("No expenses found")
         else:
             print("Expense list:")
-            for i,self.expense in enumerate(self.expenses,start=1):
-                print(f"{i}. Date: {self.expense.date}, Description: {self.expense.description}, Amount: {self.expense.amount}")
+
+            for i, expense in enumerate(self.expenses, start=1):
+                print(
+                    f"{i}. Date: {expense.date}, "
+                    f"Description: {expense.description}, "
+                    f"Amount: Rs. {expense.amount:.2f}"
+                )
 
     def total_expenses(self):
-        total=sum(expense.amount for expense in self.expenses)
-        print(f"Total Expenses: Rs. {total:.2f}") 
+        total = sum(expense.amount for expense in self.expenses)
+        print(f"Total Expenses: Rs. {total:.2f}")
 
-    def main():
-        tracker=ExpenseTracker()
 
-        while True:
-            print("\nExpense Tracker Menu:")
-            print("1. Add Expense")
-            print("2. Remove Expense")
-            print("3. View Expenses")
-            print("4. Total Expenses")
-            print("5. Exit")    
+def main():
+    tracker = ExpenseTracker()
 
-            choice=input("Enter your choice (1-5): ")
+    while True:
+        print("\nExpense Tracker Menu:")
+        print("1. Add Expense")
+        print("2. Remove Expense")
+        print("3. View Expenses")
+        print("4. Total Expenses")
+        print("5. Exit")
 
-            if choice=="1":
-                date=input("Enter the date (YYYY-MM-DD): ")
-                description=input("Enter the description: ")
-                amount=float(input("Enter the amount: "))
-                expense=Expense(date,description,amount)
-                tracker.add_expense(expense)
-                print("Expense added successfully.")
+        choice = input("Enter your choice (1-5): ")
 
-            elif choice=="2":
-                index=int(input("Enter the index of the expense to remove: "))
-                tracker.remove_expense(index-1)
-            elif choice=="3":
-                tracker.view_expenses()
-            elif choice=="4":
-                tracker.total_expenses()
-            elif choice=="5":
-                print("Exiting Expense Tracker!!")
-                break
-            else:
-                print("Invalid choice. Please try again.")
+        if choice == "1":
+            date = input("Enter the date (YYYY-MM-DD): ")
+            description = input("Enter the description: ")
+            amount = float(input("Enter the amount: "))
+
+            expense = Expense(date, description, amount)
+            tracker.add_expense(expense)
+
+            print("Expense added successfully.")
+
+        elif choice == "2":
+            index = int(input("Enter the index of the expense to remove: "))
+            tracker.remove_expense(index - 1)
+
+        elif choice == "3":
+            tracker.view_expenses()
+
+        elif choice == "4":
+            tracker.total_expenses()
+
+        elif choice == "5":
+            print("Exiting Expense Tracker!!")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+
+
+# Start the program
+if __name__ == "__main__":
+    main()
